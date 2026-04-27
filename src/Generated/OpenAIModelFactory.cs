@@ -228,6 +228,11 @@ namespace OpenAI
             return new ChatAudioOptions(outputAudioVoice, outputAudioFormat, default);
         }
 
+        public static CreateChatCompletionRequestToolChoiceFunction CreateChatCompletionRequestToolChoiceFunction(string name = default)
+        {
+            return new CreateChatCompletionRequestToolChoiceFunction(name, default);
+        }
+
         public static ChatFunction ChatFunction(string functionDescription = default, string functionName = default, BinaryData functionParameters = default)
         {
             return new ChatFunction(functionDescription, functionName, functionParameters, default);
@@ -315,7 +320,7 @@ namespace OpenAI
             return new HyperparametersForDPO(beta, batchSize, learningRateMultiplier, nEpochs, additionalBinaryDataProperties: null);
         }
 
-        public static GraderStringCheck GraderStringCheck(string name = default, string input = default, string reference = default, GraderStringCheckOperation operation = default)
+        public static GraderStringCheck GraderStringCheck(string name = default, string input = default, string reference = default, FineTuneReinforcementMethodGraderOperation operation = default)
         {
             return new GraderStringCheck(
                 GraderType.StringCheck,
@@ -454,6 +459,19 @@ namespace OpenAI
             return new ValidateGraderResponse(grader, additionalBinaryDataProperties: null);
         }
 
+        public static CreateEvalItem1 CreateEvalItem1(string role = default, string content = default)
+        {
+            return new CreateEvalItem1(role, content, additionalBinaryDataProperties: null);
+        }
+
+        public static EvalJsonlRunDataSourceParamsSourceContent EvalJsonlRunDataSourceParamsSourceContent(IDictionary<string, BinaryData> item = default, IDictionary<string, BinaryData> sample = default)
+        {
+            item ??= new ChangeTrackingDictionary<string, BinaryData>();
+            sample ??= new ChangeTrackingDictionary<string, BinaryData>();
+
+            return new EvalJsonlRunDataSourceParamsSourceContent(item, sample, additionalBinaryDataProperties: null);
+        }
+
         public static FileSearchToolRankingOptions FileSearchToolRankingOptions(FileSearchToolRanker? ranker = default, float? scoreThreshold = default)
         {
             return new FileSearchToolRankingOptions(ranker, scoreThreshold, default);
@@ -513,6 +531,11 @@ namespace OpenAI
                 default);
         }
 
+        public static ResponseReasoningOptions ResponseReasoningOptions(ResponseReasoningEffortLevel? reasoningEffortLevel = default, ResponseReasoningSummaryVerbosity? reasoningSummaryVerbosity = default, CreateResponseReasoningGenerateSummary? generateSummary = default)
+        {
+            return new ResponseReasoningOptions(reasoningEffortLevel, reasoningSummaryVerbosity, generateSummary, default);
+        }
+
         public static ResponseTextOptions ResponseTextOptions(ResponseTextFormat textFormat = default)
         {
             return new ResponseTextOptions(textFormat, default);
@@ -556,11 +579,11 @@ namespace OpenAI
             return new FilePathMessageAnnotation(ResponseMessageAnnotationKind.FilePath, default, fileId, index);
         }
 
-        public static FileSearchCallResult FileSearchCallResult(string fileId = default, string text = default, string filename = default, IDictionary<string, BinaryData> attributes = default, float? score = default)
+        public static FileSearchToolCallItemParamResult FileSearchToolCallItemParamResult(string fileId = default, string text = default, string filename = default, IDictionary<string, BinaryData> attributes = default, float? score = default)
         {
             attributes ??= new ChangeTrackingDictionary<string, BinaryData>();
 
-            return new FileSearchCallResult(
+            return new FileSearchToolCallItemParamResult(
                 fileId,
                 text,
                 filename,
@@ -821,6 +844,16 @@ namespace OpenAI
             return new ThreadCreationOptions(internalMessages.ToList(), toolResources, metadata, additionalBinaryDataProperties: null);
         }
 
+        public static RunTruncationStrategy RunTruncationStrategy(CreateThreadAndRunRequestTruncationStrategyType kind = default, int? lastMessages = default)
+        {
+            return new RunTruncationStrategy(kind, lastMessages, additionalBinaryDataProperties: null);
+        }
+
+        public static CreateThreadAndRunRequestToolChoiceFunction CreateThreadAndRunRequestToolChoiceFunction(string name = default)
+        {
+            return new CreateThreadAndRunRequestToolChoiceFunction(name, additionalBinaryDataProperties: null);
+        }
+
         public static RunError RunError(RunErrorCode code = default, string message = default)
         {
             return new RunError(code, message, additionalBinaryDataProperties: null);
@@ -951,7 +984,7 @@ namespace OpenAI
             return new ThreadDeletionResult(threadId, deleted, "thread.deleted", additionalBinaryDataProperties: null);
         }
 
-        public static OpenAIFile OpenAIFile(string id = default, long? sizeInBytesLong = default, DateTimeOffset createdAt = default, DateTimeOffset? expiresAt = default, string filename = default, FilePurpose purpose = default, FileStatus status = default, string statusDetails = default)
+        public static OpenAIFile OpenAIFile(string id = default, long? sizeInBytesLong = default, DateTimeOffset createdAt = default, DateTimeOffset? expiresAt = default, string filename = default, UploadFilePurpose purpose = default, FileStatus status = default, string statusDetails = default)
         {
             return new OpenAIFile(
                 id,
@@ -964,6 +997,21 @@ namespace OpenAI
                 status,
                 statusDetails,
                 additionalBinaryDataProperties: null);
+        }
+
+        public static SpeechAudioDeltaEvent SpeechAudioDeltaEvent(BinaryData audio = default)
+        {
+            return new SpeechAudioDeltaEvent("speech.audio.delta", audio, additionalBinaryDataProperties: null);
+        }
+
+        public static SpeechAudioDoneEvent SpeechAudioDoneEvent(SpeechTokenUsage usage = default)
+        {
+            return new SpeechAudioDoneEvent("speech.audio.done", usage, additionalBinaryDataProperties: null);
+        }
+
+        public static SpeechTokenUsage SpeechTokenUsage(int inputTokenCount = default, int outputTokenCount = default, int totalTokenCount = default)
+        {
+            return new SpeechTokenUsage(inputTokenCount, outputTokenCount, totalTokenCount, additionalBinaryDataProperties: null);
         }
 
         public static AudioTranscriptionInputTokenUsageDetails AudioTranscriptionInputTokenUsageDetails(int? textTokenCount = default, int? audioTokenCount = default)
@@ -1013,6 +1061,18 @@ namespace OpenAI
                 averageLogProbability,
                 compressionRatio,
                 noSpeechProbability,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static TranscriptTextSegmentEvent TranscriptTextSegmentEvent(string id = default, TimeSpan start = default, TimeSpan end = default, string text = default, string speaker = default)
+        {
+            return new TranscriptTextSegmentEvent(
+                "transcript.text.segment",
+                id,
+                start,
+                end,
+                text,
+                speaker,
                 additionalBinaryDataProperties: null);
         }
 
@@ -1287,11 +1347,6 @@ namespace OpenAI
             return new FileFromStoreRemovalResult(fileId, removed, "vector_store.file.deleted", additionalBinaryDataProperties: null);
         }
 
-        public static SpeechTokenUsage SpeechTokenUsage(int inputTokenCount = default, int outputTokenCount = default, int totalTokenCount = default)
-        {
-            return new SpeechTokenUsage(inputTokenCount, outputTokenCount, totalTokenCount, additionalBinaryDataProperties: null);
-        }
-
         public static ChatFunctionChoice ChatFunctionChoice()
         {
             return new ChatFunctionChoice(default);
@@ -1300,6 +1355,22 @@ namespace OpenAI
         public static ChatToolChoice ChatToolChoice()
         {
             return new ChatToolChoice(default);
+        }
+
+        public static OpenAI.FineTuneChatCompletionRequestAssistantMessage FineTuneChatCompletionRequestAssistantMessage(FineTuneChatRequestInputMessageWeight? weight = default, BinaryData content = default, string refusal = default, string name = default, ChatOutputAudioReference audio = default, IEnumerable<ChatToolCall> toolCalls = default, ChatFunctionCall functionCall = default)
+        {
+            toolCalls ??= new ChangeTrackingList<ChatToolCall>();
+
+            return new OpenAI.FineTuneChatCompletionRequestAssistantMessage(
+                weight,
+                content,
+                refusal,
+                "assistant",
+                name,
+                audio,
+                toolCalls.ToList(),
+                functionCall,
+                additionalBinaryDataProperties: null);
         }
 
         public static RealtimeMcpToolDefinition RealtimeMcpToolDefinition(string name = default, string description = default, BinaryData inputSchema = default, BinaryData annotations = default)
@@ -1563,6 +1634,140 @@ namespace OpenAI
                 order,
                 filter,
                 additionalBinaryDataProperties: null);
+        }
+
+        public static TokenCountsBody TokenCountsBody(string model = default, BinaryData input = default, string previousResponseId = default, IEnumerable<ResponseTool> tools = default, ResponseTextParam text = default, ResponseReasoningOptions reasoning = default, OpenAI.TruncationEnum? truncation = default, string instructions = default, BinaryData conversation = default, BinaryData toolChoice = default, bool? parallelToolCalls = default)
+        {
+            tools ??= new ChangeTrackingList<ResponseTool>();
+
+            return new TokenCountsBody(
+                model,
+                input,
+                previousResponseId,
+                tools.ToList(),
+                text,
+                reasoning,
+                truncation,
+                instructions,
+                conversation,
+                toolChoice,
+                parallelToolCalls,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static ResponseTextParam ResponseTextParam(ResponseTextFormat format = default, OpenAI.TokenCountsBodyTextVerbosity? verbosity = default)
+        {
+            return new ResponseTextParam(format, verbosity, additionalBinaryDataProperties: null);
+        }
+
+        public static TokenCountsResource TokenCountsResource(int inputTokens = default)
+        {
+            return new TokenCountsResource("response.input_tokens", inputTokens, additionalBinaryDataProperties: null);
+        }
+
+        public static CompactResponseMethodPublicBody CompactResponseMethodPublicBody(OpenAI.ModelIdsCompaction? model = default, BinaryData input = default, string previousResponseId = default, string instructions = default)
+        {
+            return new CompactResponseMethodPublicBody(model, input, previousResponseId, instructions, additionalBinaryDataProperties: null);
+        }
+
+        public static CompactResource CompactResource(string id = default, IEnumerable<ResponseItem> output = default, DateTimeOffset createdAt = default, ResponseTokenUsage usage = default)
+        {
+            output ??= new ChangeTrackingList<ResponseItem>();
+
+            return new CompactResource(
+                id,
+                "response.compaction",
+                output.ToList(),
+                createdAt,
+                usage,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static ConversationItemList ConversationItemList(IEnumerable<ResponseItem> data = default, bool hasMore = default, string firstId = default, string lastId = default)
+        {
+            data ??= new ChangeTrackingList<ResponseItem>();
+
+            return new ConversationItemList(
+                "list",
+                data.ToList(),
+                hasMore,
+                firstId,
+                lastId,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static CreateConversationItemsParametersBody CreateConversationItemsParametersBody(IEnumerable<ResponseItem> items = default)
+        {
+            items ??= new ChangeTrackingList<ResponseItem>();
+
+            return new CreateConversationItemsParametersBody(items.ToList(), additionalBinaryDataProperties: null);
+        }
+
+        public static ConversationResource ConversationResource(string id = default, BinaryData metadata = default, int createdAt = default)
+        {
+            return new ConversationResource(id, "conversation", metadata, createdAt, additionalBinaryDataProperties: null);
+        }
+
+        public static DeletedConversationResource DeletedConversationResource(bool deleted = default, string id = default)
+        {
+            return new DeletedConversationResource("conversation.deleted", deleted, id, additionalBinaryDataProperties: null);
+        }
+
+        public static VideoListResource VideoListResource(IEnumerable<VideoResource> data = default, string firstId = default, string lastId = default, bool hasMore = default)
+        {
+            data ??= new ChangeTrackingList<VideoResource>();
+
+            return new VideoListResource(
+                "list",
+                data.ToList(),
+                firstId,
+                lastId,
+                hasMore,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static VideoResource VideoResource(string id = default, OpenAI.VideoModel model = default, OpenAI.VideoStatus status = default, int progress = default, int createdAt = default, int? completedAt = default, int? expiresAt = default, OpenAI.VideoSize size = default, OpenAI.VideoSeconds seconds = default, string remixedFromVideoId = default, Error2 error = default)
+        {
+            return new VideoResource(
+                id,
+                "video",
+                model,
+                status,
+                progress,
+                createdAt,
+                completedAt,
+                expiresAt,
+                size,
+                seconds,
+                remixedFromVideoId,
+                error,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static Error2 Error2(string code = default, string message = default)
+        {
+            return new Error2(code, message, additionalBinaryDataProperties: null);
+        }
+
+        public static CreateVideoBody CreateVideoBody(OpenAI.VideoModel? model = default, string prompt = default, BinaryData inputReference = default, OpenAI.VideoSeconds? seconds = default, OpenAI.VideoSize? size = default)
+        {
+            return new CreateVideoBody(
+                model,
+                prompt,
+                inputReference,
+                seconds,
+                size,
+                additionalBinaryDataProperties: null);
+        }
+
+        public static DeletedVideoResource DeletedVideoResource(bool deleted = default, string id = default)
+        {
+            return new DeletedVideoResource("video.deleted", deleted, id, additionalBinaryDataProperties: null);
+        }
+
+        public static CreateVideoRemixBody CreateVideoRemixBody(string prompt = default)
+        {
+            return new CreateVideoRemixBody(prompt, additionalBinaryDataProperties: null);
         }
     }
 }
